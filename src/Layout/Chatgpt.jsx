@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Menu from "../components/Menu"
 
@@ -7,13 +7,23 @@ const ChatGPTComponent = () => {
   const [error, setError] = useState('');
   const [question, setQuestion] = useState('');
   const [role, setRole] = useState('');
-  /* const [isTextAreaVisible, setIsTextAreaVisible] = useState(false); */
+  const [userid, setUserid] = useState(null);
+
+  useEffect(() => {
+    const storedUserId = localStorage.getItem('userid');
+    if (storedUserId) {
+      setUserid(storedUserId);
+    }
+  }, []);
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault(); 
-
+    
+    console.log("Enviando los datos:", { question, role, id_usuario: userid });
+  
     try {
-      const response = await axios.post('http://localhost:3001/chatgpt', { question });
+      const response = await axios.post('http://localhost:3001/chatgpt', { question, role, id_usuario: userid});
       
       setMessage(response.data.message);
       setQuestion('');
@@ -23,10 +33,6 @@ const ChatGPTComponent = () => {
       console.error(err);
     }
   };
-  
-  /* const handleClick = () => {
-    setIsTextAreaVisible(!isTextAreaVisible);
-  }; */
 
   return (
     <div className='flex'>

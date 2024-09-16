@@ -9,7 +9,7 @@ const ProtectedRoute = ({ children }) => {
   useEffect(() => {
     const verifyToken = async () => {
       try {
-        await axios.get('http://localhost:3001/app/verify-token', { withCredentials: true });
+        await axios.get('http://localhost:3001/app/verify-token',  { withCredentials: true });
         setAuthenticated(true);
       } catch (err) {
         setAuthenticated(false);

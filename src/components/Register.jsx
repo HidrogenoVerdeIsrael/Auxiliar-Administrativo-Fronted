@@ -32,20 +32,6 @@ function Register() {
           {error && <p className="text-red-500 text-center">{error}</p>}
 
           <div className="mb-4">
-            <label htmlFor="Email" className="block text-sm font-medium text-gray-700">Email</label>
-            <input
-              type="email"
-              id="Email"
-              name="Email"
-              value={email}
-              onChange={(e)=> setEmail(e.target.value)}
-              placeholder="Email"
-              className="w-full p-2 mt-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-              required
-            />
-          </div>
-  
-          <div className="mb-4">
             <label htmlFor="Nombre" className="block text-sm font-medium text-gray-700">Nombre</label>
             <input
               type="text"
@@ -72,6 +58,20 @@ function Register() {
               required
             />
           </div>
+          <div className="mb-4">
+            <label htmlFor="Email" className="block text-sm font-medium text-gray-700">Email</label>
+            <input
+              type="email"
+              id="Email"
+              name="Email"
+              value={email}
+              onChange={(e)=> setEmail(e.target.value)}
+              placeholder="Email"
+              className="w-full p-2 mt-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+              required
+            />
+          </div>
+  
           <div className="mb-6 flex flex-col">
             <label htmlFor="password" className="block text-sm font-medium text-gray-700">
               Password

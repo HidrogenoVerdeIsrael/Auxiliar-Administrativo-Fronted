@@ -16,9 +16,10 @@ const Login = () => {
     e.preventDefault()
 
     try {
-      await axios.post('http://localhost:3001/login', { email, password },
-        { withCredentials: true }
-      )
+      const response = await axios.post('http://localhost:3001/login', { email, password }, { withCredentials: true });
+      const { userid } = response.data;
+
+      localStorage.setItem('userid', userid);
 
       navigate('/MembershipPlans')
 

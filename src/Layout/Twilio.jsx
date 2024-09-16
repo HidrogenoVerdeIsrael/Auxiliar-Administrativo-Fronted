@@ -1,16 +1,16 @@
 import axios from "axios";
 import Menu from "../components/Menu"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
-    //Twilio
-    
 function Twilio() {
 
     const [getSid, setGetSid] = useState("")
     const [token, setToken] = useState("")
     const [numero, setNumero] = useState("")
     const [submitted, setSubmitted] = useState(false)
+    const [numbers, setNumbers] = useState([])
+    const [selectNumbers, setSelectNumbers] = useState('')
 
     const handleSID=(e)=>{
         setGetSid(e.target.value)
@@ -38,6 +38,31 @@ function Twilio() {
         });
     }
 
+    //Buscar los numero disponibles que hay en twilio
+    useEffect(()=>{
+        const fetchNumbres= async ()=>{
+            try {
+                const resp= await axios.get('http://localhost:3001/search/numbers');
+                setNumbers(resp.data)
+            } catch (error) {
+                console.log('Error getting the numbers', error);
+            }
+        }
+        fetchNumbres();
+    }, [])
+
+    const buyNumber = async(phoneNumber)=> {
+        
+        try {
+            const resp = await axios.post('http://localhost:3001/buy/numbers', {
+                phoneNumber: phoneNumber
+            })
+            alert('Numero comprado')
+        } catch (error) {
+            console.error('error getting th number', error)
+        }
+    }
+
     return (
         <div className="flex">
             <Menu/>
@@ -57,6 +82,17 @@ function Twilio() {
                         <p><strong>Número:</strong> {numero}</p>
                     </div>
                 )}
+                <div className="">
+                    <h1>Comprar numero de twilio</h1>
+                    <ul>
+                        {numbers.map((number)=>(
+                            <li key={number.phoneNumber}>
+                                {number.friendlyName || number.phoneNumber}{' '}
+                                <button className="bg-green-500 m-1" onClick={()=>buyNumber(number.phoneNumber)}>comprar</button>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             </div>
         </div>
     )
